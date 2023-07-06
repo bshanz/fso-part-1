@@ -8,26 +8,30 @@ const Button = (props) => {
   )
 }
 
-const FeedbackCount = (props) => {
-    return (
-      <div>{props.text}: {props.value}</div>
-    )
+const StatisticLine = (props) => {
+  return (
+    <tr>
+      <td>{props.text}</td> 
+      <td>{props.value}</td>
+    </tr>
+  )
 }
 
+
 const Statistics = (props) => {
-
-  console.log(props, "statistics props")
-
-  // need calc, text, value, all values, feedbackCountText
   if (props.allValues > 0){
     return (
-      <> 
-      <FeedbackCount value={props.goodValue} text={props.goodText} />
-      <FeedbackCount value={props.neutralValue} text={props.neutralText} />
-      <FeedbackCount value={props.badValue} text={props.badText} />
-      <div>{props.totalText}: {props.calculateTotal}</div>
-      <div>{props.averageText}: {props.calculateAverage}</div>
-      <div>{props.positiveText}: {props.calculatePositive}</div>
+      <>
+      <table>
+        <tbody>
+          <StatisticLine value={props.goodValue} text={props.goodText} />
+          <StatisticLine value={props.neutralValue} text={props.neutralText} />
+          <StatisticLine value={props.badValue} text={props.badText} />
+          <StatisticLine value={props.calculateTotal} text={props.totalText} />
+          <StatisticLine value={props.calculateAverage} text={props.averageText} />
+          <StatisticLine value={props.calculatePositive} text={props.positiveText} />
+        </tbody>
+      </table>
       </>
     )
   } else {
@@ -35,8 +39,8 @@ const Statistics = (props) => {
       <div>No Feedback Given</div>
     )
   }
-  
 }
+
 
 const App = () => {
   // save clicks of each button to its own state
