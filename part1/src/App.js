@@ -56,6 +56,7 @@ console.log(highestVoteIndex)
       <h4>Votes for this anecdote: {points[selected]}</h4>
       <h3>Highest voted anecdote:</h3>
       <div>{anecdotes[highestVoteIndex]}</div>
+      <h4>Votes for this anecdote: {points[highestVoteIndex]}</h4>
     </div>
   )
 }
