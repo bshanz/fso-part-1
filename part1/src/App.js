@@ -1,52 +1,52 @@
-const Header = (props) => {
-  return <h1>{props.course.name}</h1>;
-}
+import { useState } from 'react'
 
-const Content = (props) => {
-  console.log('Content', props)
+const Button = (props) => {
   return (
-    <>
-      <Part part={props.course.parts[0].name} exercises={props.course.parts[0].exercises} />
-      <Part part={props.course.parts[1].name} exercises={props.course.parts[1].exercises} />
-      <Part part={props.course.parts[2].name} exercises={props.course.parts[2].exercises} />
-    </>
+    <button onClick={props.handleClick}>
+    {props.text}
+  </button>
   )
 }
 
-const Part = (props) => {
-  console.log('Part', props)
-  return <p>{props.part} {props.exercises}</p>;
-}
-
-const Total = (props) => {
-  const totalExercises = props.course.parts[0].exercises + props.course.parts[1].exercises + props.course.parts[2].exercises;
-  return <p>Number of exercises {totalExercises}</p>;
+const FeedbackCount = (props) => {
+  return (
+    <div>{props.text}: {props.value}</div>
+  )
 }
 
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  const goodFeedback = () => {
+    console.log("goodfeedback")
+    setGood(good + 1)
+    console.log(good, "good feedback")
   }
-  
+
+  const neutralFeedback = () => {
+    console.log("neutralfeedback")
+    setNeutral(neutral + 1)
+    console.log(neutral, "neutral feedback")
+  }
+
+  const badFeedback = () => {
+    console.log("badfeedback")
+    setBad(bad + 1)
+    console.log(bad, "bad feedback")
+  }
+
   return (
     <div>
-      <Header course={course} />
-      <Content course={course} />
-      <Total course={course} />
+      <h1>Give feedback</h1>
+      <Button handleClick={goodFeedback} text="Good Feeback!"/>
+      <Button handleClick={neutralFeedback} text="Neutral Feedback!"/>
+      <Button handleClick={badFeedback} text="Bad Feedback!"/>
+      <FeedbackCount value={good} text="Good Feedback Count" />
+      <FeedbackCount value={neutral} text="Neutral Feedback Count" />
+      <FeedbackCount value={bad} text="Bad Feedback Count" />
     </div>
   )
 }
