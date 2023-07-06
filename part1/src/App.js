@@ -9,9 +9,24 @@ const Button = (props) => {
 }
 
 const FeedbackCount = (props) => {
-  return (
-    <div>{props.text}: {props.value}</div>
-  )
+  if (props.value > 0){
+    return (
+      <div>{props.text}: {props.value}</div>
+    )
+  }
+}
+
+const Statistics = (props) => {
+  if (props.value > 0){
+    return (
+      <div>{props.text}: {props.calc}</div>
+    )
+  } else {
+    return (
+      <div>No Feedback Given</div>
+    )
+  }
+  
 }
 
 const App = () => {
@@ -38,15 +53,43 @@ const App = () => {
     console.log(bad, "bad feedback")
   }
 
+  // Calculate the average feedback
+  const calculateAverage = () => {
+    const totalFeedbacks = good + neutral + bad;
+    const sumFeedbacks = good - bad;  // neutral feedback is 0 so no need to include it
+
+    // Round to two decimals
+    const roundedAverage = Math.round((sumFeedbacks / totalFeedbacks)*100)/100
+
+    return totalFeedbacks ? roundedAverage : 0;
+  }
+
+  // Calculate the percentage of positive feedback
+const calculatePositive = () => {
+  const totalFeedbacks = good + neutral + bad;
+  const percentagePositive = (good / totalFeedbacks) * 100;
+  
+  // Use Math.round() to round to the nearest whole number
+  const roundedPercentage = Math.round(percentagePositive);
+  
+  return totalFeedbacks ? `${roundedPercentage}%` : '0%';
+}
+
+
+
   return (
     <div>
       <h1>Give feedback</h1>
       <Button handleClick={goodFeedback} text="Good Feeback!"/>
       <Button handleClick={neutralFeedback} text="Neutral Feedback!"/>
       <Button handleClick={badFeedback} text="Bad Feedback!"/>
+      <h2>Statistics</h2>
       <FeedbackCount value={good} text="Good Feedback Count" />
       <FeedbackCount value={neutral} text="Neutral Feedback Count" />
       <FeedbackCount value={bad} text="Bad Feedback Count" />
+      <Statistics calc={good + neutral + bad} text="Total Feedback" value={good + neutral + bad}/>
+      <Statistics calc={calculateAverage()} text="Average Feedback" value={good + neutral + bad}/>
+      <Statistics calc={calculatePositive()} text="Percentage Positive Feedback" value={good + neutral + bad}/>
     </div>
   )
 }
