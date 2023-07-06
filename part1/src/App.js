@@ -9,17 +9,26 @@ const Button = (props) => {
 }
 
 const FeedbackCount = (props) => {
-  if (props.value > 0){
     return (
       <div>{props.text}: {props.value}</div>
     )
-  }
 }
 
 const Statistics = (props) => {
-  if (props.value > 0){
+
+  console.log(props, "statistics props")
+
+  // need calc, text, value, all values, feedbackCountText
+  if (props.allValues > 0){
     return (
-      <div>{props.text}: {props.calc}</div>
+      <> 
+      <FeedbackCount value={props.goodValue} text={props.goodText} />
+      <FeedbackCount value={props.neutralValue} text={props.neutralText} />
+      <FeedbackCount value={props.badValue} text={props.badText} />
+      <div>{props.totalText}: {props.calculateTotal}</div>
+      <div>{props.averageText}: {props.calculateAverage}</div>
+      <div>{props.positiveText}: {props.calculatePositive}</div>
+      </>
     )
   } else {
     return (
@@ -75,6 +84,11 @@ const calculatePositive = () => {
   return totalFeedbacks ? `${roundedPercentage}%` : '0%';
 }
 
+// Calculate the feedback total
+const calculateTotal = () => {
+  return good + neutral + bad;
+}
+
 
 
   return (
@@ -84,12 +98,7 @@ const calculatePositive = () => {
       <Button handleClick={neutralFeedback} text="Neutral Feedback!"/>
       <Button handleClick={badFeedback} text="Bad Feedback!"/>
       <h2>Statistics</h2>
-      <FeedbackCount value={good} text="Good Feedback Count" />
-      <FeedbackCount value={neutral} text="Neutral Feedback Count" />
-      <FeedbackCount value={bad} text="Bad Feedback Count" />
-      <Statistics calc={good + neutral + bad} text="Total Feedback" value={good + neutral + bad}/>
-      <Statistics calc={calculateAverage()} text="Average Feedback" value={good + neutral + bad}/>
-      <Statistics calc={calculatePositive()} text="Percentage Positive Feedback" value={good + neutral + bad}/>
+      <Statistics calculatePositive={calculatePositive()} positiveText="Percentage Positive Feedback" calculateAverage={calculateAverage()} averageText="Average Feedback" badValue={bad} badText="Bad Feedback Count" neutralValue={neutral} neutralText="Neutral Feedback Count" goodValue={good} goodText="Good Feedback Count" calculateTotal={calculateTotal()} totalText="Total Feedback" allValues={good + neutral + bad}/>
     </div>
   )
 }
